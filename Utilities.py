@@ -54,8 +54,8 @@ def LoadData(datapath, BU):
 
 def MakeGroupDensity(X, nDecades,mode,inputSerial):
     #decades=[-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]
-    if mode is 1:
-        decades=inputSerial
+    if mode == 1:
+        decades=np.log10(inputSerial)
     else:
         decades = np.linspace(-3, 7, nDecades)
     #print(decades)
@@ -255,11 +255,35 @@ def OptimizeHyperparameters(X, X_test, y, y_test,gpr):
     return sa.best_score_, sa.best_params_
 
     
-    
-    
+def GroupDensityChecker(decadeDensity, push,origGS):
+    newGS=[]
+    count=0
+    for i in range(0,len(decadeDensity)):
+        if decadeDensity[i]>1: #Catch for if theres more than one count in the serailization structure
+            for j in range(0,int(decadeDensity[i])):
+                if push==1:
+                    newGS.append(origGS[count+1])
+                elif push==2:
+                    newGS.append(origGS[count])
+                elif push==3:
+                    newGS.append(np.mean([origGS[count+1],origGS[count]]))
+                else:
+                    print("Push value not recognized")
+            count=count+1
+        elif decadeDensity[i]==1: #Only one count 
+            if push==1:
+                newGS.append(origGS[count+1])
+            elif push==2:
+                newGS.append(origGS[count])
+            elif push==3:
+                newGS.append(np.mean([origGS[count+1],origGS[count]]))
+            else:
+                print("Push value not recognized")
+            count=count+1
+        else:
+            print("No count")
+    return newGS
 
-    
-    
 
 
 
