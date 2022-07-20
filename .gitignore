@@ -1,0 +1,15 @@
+/agm*
+*.pyc
+.idea
+.vscode
+/data/
+*.csv
+.DS_Store
+/common_inputs/
+scratch.py
+__pycache__
+/mcnp_files*
+*.zip
+scratch*
+/Wendian_*
+/Centennial_*
