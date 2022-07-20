@@ -2,7 +2,7 @@
 import os, sys
 homeDir = os.path.expanduser("~")
 sys.path.insert(0,homeDir + "/codes/Group-Structure-Neural-Nets")
-import Utilities as ut
+import src.Utilities as ut
 import numpy as np
 import xgboost as xgb
 dataPath = homeDir + '/nuclear/data/GroupStructure/MOWA/run0002'
