@@ -52,6 +52,7 @@ def LoadData(datapath, BU):
         return kinf, groupStruct
 
 
+# decades represent bin edges. decades[0] is lowest (1e-3 eV), decades[:] is highest (10MeV)
 def MakeGroupDensity(X, nDecades,mode,inputSerial):
     #decades=[-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]
     if mode == 1:
@@ -67,7 +68,7 @@ def MakeGroupDensity(X, nDecades,mode,inputSerial):
             for j in range(0,len(x_lognorm[N,:])):
                 if x_lognorm[N,j] >= decades[i] and x_lognorm[N,j] < decades[i+1]:
                     decadeDensity[N,i]=decadeDensity[N,i]+1
-    return decadeDensity
+    return decadeDensity, np.power(10,decades)
         
 
 # auto-documenting header goes here

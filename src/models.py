@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # %% ensemble model
-def model_ensemble(input_dim=57,output_dim=57, num_models=5, activation='relu', layerConfiguration=[512,512], preFitScaler=None):
+def model_ensemble(input_dim=57,output_dim=57, num_models=5, activation='relu', layerConfiguration=[512,512], preFitScaler=None,regularizer=None):
     #activation = 'softplus' # not bad!
     #activation = 'relu' # standard
     #activation = 'elu' # not good for UE
@@ -13,9 +13,9 @@ def model_ensemble(input_dim=57,output_dim=57, num_models=5, activation='relu', 
             scaleMean = preFitScaler.mean_
             scaleVar = preFitScaler.var_
             Th.append(layers.Normalization(axis=1, mean=scaleMean,variance=scaleVar,input_dim=input_dim))
-        Th.append(layers.Dense(layerConfiguration[0], activation=activation, name='hidden_1', input_dim=input_dim))
+        Th.append(layers.Dense(layerConfiguration[0], activation=activation, name='hidden_1', input_dim=input_dim, kernel_regularizer=regularizer))
         for i in range(1,NhiddenLayers):
-            Th.append(layers.Dense(layerConfiguration[i], activation=activation,  name='hidden_'+ str(i+1)))
+            Th.append(layers.Dense(layerConfiguration[i], activation=activation,  name='hidden_'+ str(i+1), kernel_regularizer=regularizer))
         #Th.append(edl.layers.DenseNormal(output_dim))
         Th.append(layers.Dense(output_dim, name='output'))
         ss_model = tf.keras.Sequential(Th)
